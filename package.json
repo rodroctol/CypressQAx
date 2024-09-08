@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "yarn": "^1.22.22"
+  },
+  "name": "QAx",
+  "version": "1.0.0",
+  "description": "Test Automation using Cypres by Papito",
+  "main": "index.js",
+  "repository": "https://github.com/rodroctol/CypressQAx.git",
+  "author": "Rodrigo Toledo",
+  "license": "MIT",
+  "private": null,
+  "devDependencies": {
+    "cypress": "12.2.0"
+  }
+}
