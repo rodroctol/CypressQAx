@@ -16,4 +16,9 @@ concluido os 2 passos acima, para incializar a API o app Web, abrir uma nova aba
 
 A partir desse momento tanto a API quanto o Web App estarão funcionando.
 
+Problemas com a faker lib foram resolvidos com a inclusão das libs babel e update do Cypress para V.13 ou maior.
+    - cmd para inclusão da faker lib: npm install @faker-js/faker --save-dev
+    - cmd para inclusão de babel lib: npm install babel-loader @babel/core @babel/preset-env --save-dev
+    - não ocorreu uma inclusão automática da dev dependence webpack.config.js dentro do package.json portanto deve-se criar uma para funcionar
 
+    
