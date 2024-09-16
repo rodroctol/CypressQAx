@@ -1,58 +1,75 @@
-//import { faker } from '@faker-js/faker' ### Leaving this code commented only for studying purposes.
+describe('tasks', () => {
+    
+    let testData;
 
-
-//const taskName = faker; ### Leaving this code commented only for studying purposes.
-
-describe('should creat a new task', () => {
-
-    var taskName = "Read a book about JS coding.";
-
-    it('register a new task', () => {
-
-        cy.request({
-            url: 'http://localhost:3333/helper/tasks',
-            method: 'DELETE',
-            body: { name: taskName }
-        }).then(response => {
-            expect(response.status).to.eq(204);
+    before(() => {
+        cy.fixture('tasks').then(t => {
+            testData = t
         })
-
-        cy.visit('http://localhost:3000');
-        cy.get('input[placeholder="Add a new Task"]')
-            .type(taskName);
-
-        //.type(randomName.music.songName()); ### Leaving this code commented only for studying purposes.
-
-        cy.contains('button', 'Create').click();
-
-        cy.contains('main div p', taskName)
-            .should('be.visible');
     })
 
-    it('should not allow repeated task', () => {
+    context('register', () => {
+        const taskName = "Read a book about JS coding.";
 
-        cy.request({
-            url: 'http://localhost:3333/helper/tasks',
-            method: 'DELETE',
-            body: { name: taskName }
-        }).then(response => {
-            expect(response.status).to.eq(204);
+        it('register a new task', () => {
+            cy.removeTaskByName(taskName);
+            cy.createTask(taskName);
+            cy.contains('main div p', taskName)
+                .should('be.visible');
+        });
+
+        it('should not allow repeated task', () => {
+
+            const task = testData.dup
+
+            cy.removeTaskByName(task.name);
+            cy.postTask(task.name);
+            cy.createTask(task.name);
+            cy.get('.swal2-html-container')
+                .should('be.visible')
+                .should('have.text', 'Task already exists!');
+        });
+
+        it('Requested field', () => {
+            cy.createTask();
+            cy.isRequired('This is a required field');
         })
+    });
 
-        cy.request({
-            url: 'http://localhost:3333/tasks',
-            method: 'POST',
-            body: { name: taskName, is_done: false }
-        }).then(response => {
-            expect(response.status).to.eq(201);
+    context('update', () => {
+        it('completing a task', () => {
+            const taskName  = {
+                name: 'resolver bug',
+                is_done: false
+            }
+            cy.removeTaskByName(taskName.name);
+            cy.postTask(taskName.name);
+
+            cy.visit('/');
+
+            cy.contains('p', taskName.name)
+                .parent()
+                .find('button[class*=ItemToggle')
+                .click()
+
+            cy.contains('p', taskName.name).should('have.css', 'text-decoration-line', 'line-through')
         })
-
-        cy.visit('http://localhost:3000');
-        cy.get('input[placeholder="Add a new Task"]')
-            .type(taskName);
-        cy.contains('button', 'Create').click();
-        cy.get('.swal2-html-container')
-            .should('be.visible')
-            .should('have.text', 'Task already exists!');
     })
-})
+
+    context('Delete', () => {
+        it('Removing a task', () => {
+            const taskName = "cagando tudo"
+            cy.removeTaskByName(taskName);
+            cy.createTask(taskName);
+
+            cy.visit('/');
+
+            cy.contains('p', taskName)
+                .parent()
+                .find('button[class*=ItemDelete')
+                .click()
+
+            cy.contains('p', taskName).should('not.exist')
+        })
+    })
+});

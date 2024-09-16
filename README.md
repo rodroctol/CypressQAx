@@ -21,4 +21,7 @@ Problemas com a faker lib foram resolvidos com a inclusão das libs babel e upda
     - cmd para inclusão de babel lib: npm install babel-loader @babel/core @babel/preset-env --save-dev
     - não ocorreu uma inclusão automática da dev dependence webpack.config.js dentro do package.json portanto deve-se criar uma para funcionar
 
-    
+Foram utilizados custom commands para chamar alguns elementos da automação, incluindo o uso de alias para um elemento específico.
+
+Implementada lista de comandos customizados afim de viabilizar um código mais enxuto e reutilizável
+Implementada uma config padrão de variável de ambiente, tanto para visita ao site alvo, quanto para os recursos API.
