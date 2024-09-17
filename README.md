@@ -25,3 +25,4 @@ Foram utilizados custom commands para chamar alguns elementos da automação, in
 
 Implementada lista de comandos customizados afim de viabilizar um código mais enxuto e reutilizável
 Implementada uma config padrão de variável de ambiente, tanto para visita ao site alvo, quanto para os recursos API.
+a
